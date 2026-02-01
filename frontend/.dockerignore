@@ -1,0 +1,14 @@
+node_modules/
+.git/
+.next/
+dist/
+build/
+*.log
+.env*
+coverage/
+.DS_Store
+Thumbs.db
+*.tmp
+*.swp
+.vscode/
+.idea/

@@ -1,0 +1,262 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Premium Design System - Light & Dark Mode */
+@layer base {
+  :root {
+    /* Light mode variables */
+    --bg-primary: 255, 255, 255;
+    --bg-secondary: 248, 250, 252;
+    --bg-tertiary: 241, 245, 249;
+
+    --text-primary: 15, 23, 42;
+    --text-secondary: 71, 85, 105;
+    --text-tertiary: 148, 163, 184;
+
+    --border-primary: 226, 232, 240;
+    --border-secondary: 203, 213, 225;
+
+    --accent: 6, 182, 212;
+    --success: 16, 185, 129;
+    --error: 239, 68, 68;
+    --warning: 245, 158, 11;
+  }
+
+  .dark {
+    /* Dark mode variables */
+    --bg-primary: 15, 23, 42;
+    --bg-secondary: 30, 41, 59;
+    --bg-tertiary: 51, 65, 85;
+
+    --text-primary: 248, 250, 252;
+    --text-secondary: 203, 213, 225;
+    --text-tertiary: 100, 116, 139;
+
+    --border-primary: 51, 65, 85;
+    --border-secondary: 71, 85, 105;
+
+    --accent: 6, 182, 212;
+    --success: 52, 211, 153;
+    --error: 248, 113, 113;
+    --warning: 251, 191, 36;
+  }
+
+  body {
+    @apply bg-light-bg-secondary dark:bg-dark-bg-primary text-light-text-primary dark:text-dark-text-primary;
+    @apply transition-colors duration-300;
+    font-feature-settings: 'kern' 1, 'liga' 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  * {
+    @apply border-light-border-primary dark:border-dark-border-primary;
+  }
+}
+
+/* Premium Component Styles */
+@layer components {
+  /* 3D Card Effect - Optimized */
+  .card-3d {
+    @apply bg-light-bg-primary dark:bg-dark-bg-secondary;
+    @apply border border-light-border-primary dark:border-dark-border-primary;
+    @apply shadow-soft dark:shadow-dark-soft;
+    @apply rounded-xl;
+    @apply transition-all duration-250;
+    transform: translateZ(0);
+    will-change: transform; /* Removed box-shadow for better performance */
+  }
+
+  .card-3d:hover {
+    @apply shadow-soft-lg dark:shadow-dark-soft-lg;
+    transform: translateY(-2px) translateZ(0);
+  }
+
+  /* Premium Button */
+  .btn-primary {
+    @apply bg-accent-500 text-white font-medium;
+    @apply px-6 py-2.5 rounded-lg;
+    @apply shadow-soft hover:shadow-glow;
+    @apply transition-all duration-250;
+    @apply hover:bg-accent-600;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2;
+    @apply focus-visible:ring-offset-light-bg-primary dark:focus-visible:ring-offset-dark-bg-primary;
+    @apply disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-accent-500 disabled:hover:shadow-soft;
+    transform: translateZ(0);
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    transform: translateY(-1px) translateZ(0);
+  }
+
+  .btn-primary:active:not(:disabled) {
+    transform: scale(0.98) translateZ(0);
+  }
+
+  .btn-secondary {
+    @apply bg-light-bg-tertiary dark:bg-dark-bg-tertiary;
+    @apply text-light-text-primary dark:text-dark-text-primary;
+    @apply font-medium px-6 py-2.5 rounded-lg;
+    @apply border border-light-border-secondary dark:border-dark-border-secondary;
+    @apply shadow-soft dark:shadow-dark-soft;
+    @apply transition-all duration-250;
+    @apply hover:bg-light-bg-secondary dark:hover:bg-dark-bg-secondary;
+    @apply hover:border-accent-500 dark:hover:border-accent-500;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2;
+    @apply focus-visible:ring-offset-light-bg-primary dark:focus-visible:ring-offset-dark-bg-primary;
+    @apply disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-light-bg-tertiary dark:disabled:hover:bg-dark-bg-tertiary;
+    transform: translateZ(0);
+  }
+
+  .btn-secondary:hover:not(:disabled) {
+    transform: translateY(-1px) translateZ(0);
+  }
+
+  .btn-secondary:active:not(:disabled) {
+    transform: scale(0.98) translateZ(0);
+  }
+
+  /* Premium Input */
+  .input-premium {
+    @apply w-full px-4 py-2.5;
+    @apply bg-light-bg-primary dark:bg-dark-bg-secondary;
+    @apply border border-light-border-primary dark:border-dark-border-primary;
+    @apply rounded-lg;
+    @apply text-light-text-primary dark:text-dark-text-primary;
+    @apply placeholder-light-text-tertiary dark:placeholder-dark-text-tertiary;
+    @apply transition-all duration-250;
+    @apply focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-accent-500;
+    @apply disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-light-bg-tertiary dark:disabled:bg-dark-bg-tertiary;
+    @apply shadow-inner-soft;
+  }
+
+  .input-premium:hover:not(:disabled) {
+    @apply border-light-border-secondary dark:border-dark-border-secondary;
+  }
+
+  .input-premium:focus {
+    @apply shadow-soft;
+  }
+
+  /* Stat Card with Glow */
+  .stat-card {
+    @apply card-3d;
+    @apply relative overflow-hidden;
+  }
+
+  .stat-card::before {
+    content: '';
+    @apply absolute inset-0 opacity-0;
+    @apply bg-gradient-to-br from-accent-500/10 to-transparent;
+    @apply transition-opacity duration-300;
+  }
+
+  .stat-card:hover::before {
+    @apply opacity-100;
+  }
+
+  /* Icon Container with 3D effect */
+  .icon-3d {
+    @apply flex items-center justify-center;
+    @apply w-12 h-12 rounded-xl;
+    @apply bg-gradient-to-br from-accent-400 to-accent-600;
+    @apply shadow-soft;
+    @apply transition-all duration-250;
+    transform: translateZ(0);
+  }
+
+  .icon-3d:hover {
+    @apply shadow-glow;
+    transform: translateY(-2px) translateZ(0);
+  }
+
+  /* Smooth Transitions */
+  .transition-smooth {
+    @apply transition-all duration-250 ease-out;
+  }
+
+  /* Focus States */
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    @apply outline-none ring-2 ring-accent-500 ring-offset-2;
+    @apply ring-offset-light-bg-primary dark:ring-offset-dark-bg-primary;
+  }
+
+  /* Scrollbar Styling */
+  ::-webkit-scrollbar {
+    @apply w-2 h-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-light-bg-secondary dark:bg-dark-bg-secondary;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-light-border-secondary dark:bg-dark-border-secondary;
+    @apply rounded-full;
+    @apply hover:bg-accent-500;
+  }
+
+  /* Loading Spinner - Optimized */
+  .spinner {
+    @apply w-8 h-8 border-4 border-accent-500 border-t-transparent rounded-full;
+    animation: spin 0.8s linear infinite;
+    will-change: transform;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* Glassmorphism Effect */
+  .glass {
+    @apply bg-light-bg-primary/80 dark:bg-dark-bg-secondary/80;
+    @apply backdrop-blur-xl;
+    @apply border border-light-border-primary/50 dark:border-dark-border-primary/50;
+  }
+
+  /* Gradient Text */
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-accent-400 to-accent-600;
+  }
+
+  /* Badge */
+  .badge {
+    @apply inline-flex items-center px-3 py-1;
+    @apply text-xs font-medium rounded-full;
+    @apply bg-accent-500/10 text-accent-600 dark:text-accent-400;
+    @apply border border-accent-500/20;
+  }
+
+  /* Divider */
+  .divider {
+    @apply h-px bg-gradient-to-r;
+    @apply from-transparent via-light-border-primary dark:via-dark-border-primary to-transparent;
+  }
+}
+
+/* Utility Classes */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Perspective for 3D effects */
+  .perspective {
+    perspective: 1000px;
+  }
+
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+
+  /* Backdrop filters */
+  .backdrop-blur-premium {
+    backdrop-filter: blur(12px) saturate(180%);
+  }
+}

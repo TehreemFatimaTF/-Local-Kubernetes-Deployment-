@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-frontend
+  labels:
+    {{- include "todo-app.labels" . | nindent 4 }}
+    {{- include "todo-app.frontend.selectorLabels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.frontend.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "todo-app.frontend.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "todo-app.frontend.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+      - name: frontend
+        image: "{{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag }}"
+        imagePullPolicy: {{ .Values.frontend.image.pullPolicy }}
+        ports:
+        - containerPort: {{ .Values.frontend.service.targetPort }}
+          name: http
+        env:
+        - name: NEXT_PUBLIC_API_URL
+          valueFrom:
+            configMapKeyRef:
+              name: todo-app-config
+              key: NEXT_PUBLIC_API_URL
+        - name: NODE_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: todo-app-config
+              key: NODE_ENV
+        resources:
+          {{- toYaml .Values.frontend.resources | nindent 10 }}
+        readinessProbe:
+          httpGet:
+            path: {{ .Values.frontend.probes.readiness.path }}
+            port: {{ .Values.frontend.service.targetPort }}
+          initialDelaySeconds: {{ .Values.frontend.probes.readiness.initialDelaySeconds }}
+          periodSeconds: {{ .Values.frontend.probes.readiness.periodSeconds }}
+        livenessProbe:
+          httpGet:
+            path: {{ .Values.frontend.probes.liveness.path }}
+            port: {{ .Values.frontend.service.targetPort }}
+          initialDelaySeconds: {{ .Values.frontend.probes.liveness.initialDelaySeconds }}
+          periodSeconds: {{ .Values.frontend.probes.liveness.periodSeconds }}

@@ -1,0 +1,69 @@
+# Global settings
+namespace: todo-app-dev
+
+# Frontend configuration
+frontend:
+  enabled: true
+  image:
+    repository: todo-frontend
+    tag: latest
+    pullPolicy: Never
+  replicaCount: 2
+  service:
+    type: NodePort
+    port: 80
+    targetPort: 3000
+    nodePort: null  # Auto-assign
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+  env:
+    NEXT_PUBLIC_API_URL: "http://todo-backend-service:5000"
+    NODE_ENV: "production"
+  probes:
+    readiness:
+      path: /
+      initialDelaySeconds: 10
+      periodSeconds: 10
+    liveness:
+      path: /
+      initialDelaySeconds: 15
+      periodSeconds: 20
+
+# Backend configuration
+backend:
+  enabled: true
+  image:
+    repository: todo-backend
+    tag: latest
+    pullPolicy: Never
+  replicaCount: 1
+  service:
+    type: ClusterIP
+    port: 5000
+    targetPort: 5000
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+  env:
+    DATABASE_URL: ""
+    JWT_SECRET: ""
+    GEMINI_API_KEY: ""
+    BETTER_AUTH_SECRET: ""
+  probes:
+    readiness:
+      path: /health
+      initialDelaySeconds: 10
+      periodSeconds: 10
+    liveness:
+      path: /health
+      initialDelaySeconds: 15
+      periodSeconds: 20

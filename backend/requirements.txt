@@ -1,0 +1,30 @@
+# Backend Dependencies for Todo Web Application with Chat API
+
+# Web Framework
+fastapi==0.115.13
+uvicorn==0.34.3
+fastapi-cors==0.0.6
+uvicorn
+bcrypt
+passlib[bcrypt]
+python-jose
+python-dotenv
+# Database
+sqlmodel==0.0.27
+psycopg2-binary==2.9.9
+
+# Authentication
+python-jose[cryptography]==3.3.0
+python-dotenv==1.0.0
+
+# Google Gemini AI
+google-generativeai==0.8.3
+fastapi
+uvicorn
+sqlalchemy
+psycopg2-binary
+bcrypt
+
+# Utilities
+pydantic==2.5.0
+python-multipart==0.0.6

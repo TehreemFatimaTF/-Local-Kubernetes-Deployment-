@@ -1,0 +1,213 @@
+# API Contract: Todo Web Application
+
+## Authentication Endpoints
+
+### POST /api/auth/register
+Register a new user account.
+
+**Headers**:
+- Content-Type: application/json
+
+**Request Body**:
+```json
+{
+  "email": "user@example.com",
+  "password": "SecurePass123!"
+}
+```
+
+**Response**:
+- 201 Created: User registered successfully with JWT token
+- 400 Bad Request: Invalid input (email format, password strength)
+- 409 Conflict: Email already exists
+
+### POST /api/auth/login
+Authenticate user and return JWT token.
+
+**Headers**:
+- Content-Type: application/json
+
+**Request Body**:
+```json
+{
+  "email": "user@example.com",
+  "password": "SecurePass123!"
+}
+```
+
+**Response**:
+- 200 OK: Authentication successful with JWT token
+- 401 Unauthorized: Invalid credentials
+
+### POST /api/auth/logout
+Logout user and invalidate session.
+
+**Headers**:
+- Authorization: Bearer {token}
+
+**Response**:
+- 200 OK: Successfully logged out
+
+## Task Endpoints
+
+### GET /api/tasks
+Retrieve all tasks for the authenticated user.
+
+**Headers**:
+- Authorization: Bearer {token}
+
+**Query Parameters**:
+- completed: boolean (optional, filter by completion status)
+- limit: number (optional, default 50)
+- offset: number (optional, default 0)
+
+**Response**:
+- 200 OK: Array of tasks
+```json
+{
+  "tasks": [
+    {
+      "id": "uuid-string",
+      "user_id": "user-uuid",
+      "title": "Task title",
+      "description": "Optional description",
+      "completed": false,
+      "created_at": "2023-01-01T00:00:00Z",
+      "updated_at": "2023-01-01T00:00:00Z"
+    }
+  ],
+  "total": 1
+}
+```
+- 401 Unauthorized: Invalid or missing token
+
+### POST /api/tasks
+Create a new task for the authenticated user.
+
+**Headers**:
+- Authorization: Bearer {token}
+- Content-Type: application/json
+
+**Request Body**:
+```json
+{
+  "title": "New task title",
+  "description": "Optional description"
+}
+```
+
+**Response**:
+- 201 Created: Task created successfully
+```json
+{
+  "id": "uuid-string",
+  "user_id": "user-uuid",
+  "title": "New task title",
+  "description": "Optional description",
+  "completed": false,
+  "created_at": "2023-01-01T00:00:00Z",
+  "updated_at": "2023-01-01T00:00:00Z"
+}
+```
+- 400 Bad Request: Invalid input (missing title, title too long)
+- 401 Unauthorized: Invalid or missing token
+
+### GET /api/tasks/{id}
+Retrieve a specific task by ID.
+
+**Headers**:
+- Authorization: Bearer {token}
+
+**Parameters**:
+- id: Task UUID
+
+**Response**:
+- 200 OK: Task details
+```json
+{
+  "id": "uuid-string",
+  "user_id": "user-uuid",
+  "title": "Task title",
+  "description": "Optional description",
+  "completed": false,
+  "created_at": "2023-01-01T00:00:00Z",
+  "updated_at": "2023-01-01T00:00:00Z"
+}
+```
+- 401 Unauthorized: Invalid or missing token
+- 404 Not Found: Task doesn't exist or doesn't belong to user
+
+### PUT /api/tasks/{id}
+Update an existing task.
+
+**Headers**:
+- Authorization: Bearer {token}
+- Content-Type: application/json
+
+**Parameters**:
+- id: Task UUID
+
+**Request Body**:
+```json
+{
+  "title": "Updated task title",
+  "description": "Updated description",
+  "completed": true
+}
+```
+
+**Response**:
+- 200 OK: Task updated successfully
+```json
+{
+  "id": "uuid-string",
+  "user_id": "user-uuid",
+  "title": "Updated task title",
+  "description": "Updated description",
+  "completed": true,
+  "created_at": "2023-01-01T00:00:00Z",
+  "updated_at": "2023-01-02T00:00:00Z"
+}
+```
+- 400 Bad Request: Invalid input
+- 401 Unauthorized: Invalid or missing token
+- 404 Not Found: Task doesn't exist or doesn't belong to user
+
+### PATCH /api/tasks/{id}/toggle
+Toggle the completion status of a task.
+
+**Headers**:
+- Authorization: Bearer {token}
+
+**Parameters**:
+- id: Task UUID
+
+**Response**:
+- 200 OK: Task completion status toggled
+```json
+{
+  "id": "uuid-string",
+  "user_id": "user-uuid",
+  "title": "Task title",
+  "description": "Optional description",
+  "completed": true,
+  "created_at": "2023-01-01T00:00:00Z",
+  "updated_at": "2023-01-02T00:00:00Z"
+}
+```
+- 401 Unauthorized: Invalid or missing token
+- 404 Not Found: Task doesn't exist or doesn't belong to user
+
+### DELETE /api/tasks/{id}
+Delete a task (soft delete - mark as deleted).
+
+**Headers**:
+- Authorization: Bearer {token}
+
+**Parameters**:
+- id: Task UUID
+
+**Response**:
+- 204 No Content: Task deleted successfully
+- 401 Unauthorized: Invalid or missing token
+- 404 Not Found: Task doesn't exist or doesn't belong to user
