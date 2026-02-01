@@ -119,7 +119,7 @@ docker images | grep todo-backend
 docker run -p 8080:8080 \
   -e DATABASE_URL="postgresql://neondb_owner:npg_EjCo5xMe1bRT@ep-long-field-ah05rknq-pooler.c-3.us-east-1.aws.neon.tech/neondb?sslmode=require" \
   -e JWT_SECRET="dev-secret" \
-  -e GEMINI_API_KEY="AIzaSyDHfoqAmTBABlbaFJnhzWYHPhfsO44JWT8" \
+  -e GEMINI_API_KEY="" \
   todo-backend:latest
 # Open browser: http://localhost:8080/health
 # Press Ctrl+C to stop
