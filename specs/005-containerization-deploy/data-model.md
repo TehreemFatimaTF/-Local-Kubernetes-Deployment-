@@ -365,7 +365,7 @@ backend:
   env:
     DATABASE_URL: "postgresql://neondb_owner:npg_EjCo5xMe1bRT@ep-long-field-ah05rknq-pooler.c-3.us-east-1.aws.neon.tech/neondb?sslmode=require"
     JWT_SECRET: "dev-secret-change-in-production"
-    GEMINI_API_KEY: "AIzaSyDHfoqAmTBABlbaFJnhzWYHPhfsO44JWT8"
+    GEMINI_API_KEY: ""
     BETTER_AUTH_SECRET: "dev-auth-secret"
 ```
 
